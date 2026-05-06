@@ -14,7 +14,7 @@ This project uses Conditional Random Fields (CRF) to perform morphological segme
 
 ### Option 1: Google Colab (Recommended for Workshop)
 You can run this entire pipeline in the cloud without local setup:
-[INSERT_COLAB_LINK_HERE]
+[Click to open](https://colab.research.google.com/drive/1GtPEtvycglagAaa1g4X1IvLl1oSBC5tS?usp=sharing)
 
 1. Run the **Bootstrap** cell to install dependencies.
 2. Edit `features.py` directly in the notebook cell.
