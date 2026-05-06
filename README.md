@@ -13,18 +13,19 @@ This project uses Conditional Random Fields (CRF) to perform morphological segme
 ## Quick Start
 
 ### Option 1: Google Colab (Recommended for Workshop)
-You can run this entire pipeline in the cloud without local setup:
+You can run this entire pipeline in the cloud without local setup. Open and copy the Google Collab notebook, then follow the instructions inside.
+
 [Click to open](https://colab.research.google.com/drive/1GtPEtvycglagAaa1g4X1IvLl1oSBC5tS?usp=sharing)
 
-1. Run the **Bootstrap** cell to install dependencies.
-2. Edit `features.py` directly in the notebook cell.
-3. Run the **Train** cell to see your model learn.
 
 ### Option 2: Local Setup
 1. **Clone the repository:**
    ```bash
-   git clone <repo-url>
+   git clone https://github.com/joshm21/ug-workshop2/
    cd georgian-segmenter
+   python3 -m venv venv
+   source venv/bin/activate
+   pip install -r requirements.txt
 
 ## 🎓 How to Read Your Model Report
 
