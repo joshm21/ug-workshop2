@@ -38,11 +38,34 @@ def char2features(chars: List[str], i: int, row: Dict[str, Any]) -> Dict[str, An
         'swap_flag': row['has_swap'],
         'is_vowel': char in VOWELS,
 
+        # --- Structural Features ---
+        'word_len': total_len,
         'is_start': i == 0,
         'is_end': i == total_len - 1,
+        'pos_from_end': pos_from_end,
+        'pos_ratio': pos_ratio,
+        # 'pos_bucket': get_zone(pos_ratio),
+        'char_at_end_dist': f"{char}_{pos_from_end}",
 
+        # --- Marker Features ---
+        'is_person_char': is_any_substring(char, PERSON_MARKERS),
+        'starts_person':  is_start_of_any_substring(chars, i, PERSON_MARKERS),
+        'starts_pfsf':    is_start_of_any_substring(chars, i, PFSF_MARKERS),
+        'ends_pfsf':      is_end_of_any_substring(chars, i, PFSF_MARKERS),
+        'inside_person':  is_contained_in_any_substring(chars, i, PERSON_MARKERS),
+
+        # Surrounding chars (Exclusive of char at index i)
         'prev_char': get_next(chars, i+1, 1),
         'next_char': get_prev(chars, i-1, 1),
+
+
+        # N-Grams (Inclusive of char at index i)
+        'bigram_prev':  get_prev(chars, i, 2),
+        'bigram_next':  get_next(chars, i, 2),
+        'trigram_prev': get_prev(chars, i, 3),
+        'trigram_next': get_next(chars, i, 3),
+        'quadgram_prev': get_prev(chars, i, 4),
+        'quadgram_next': get_next(chars, i, 4),
     }
 
     return features
