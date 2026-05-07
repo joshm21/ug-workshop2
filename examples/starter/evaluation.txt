@@ -1,0 +1,39 @@
+
+=============================================
+        CRF PERFORMANCE REPORT
+=============================================
+              precision    recall  f1-score   support
+
+           I      0.899     0.927     0.913     16596
+           N      0.680     0.602     0.639      1861
+           S      0.788     0.739     0.763      5016
+
+    accuracy                          0.861     23473
+   macro avg      0.789     0.756     0.772     23473
+weighted avg      0.858     0.861     0.859     23473
+
+
+[1] Confusion Matrix:
+       I     N     S
+I  15392   428   776
+N    519  1120   222
+S   1210    98  3708
+
+[2] Top 15 Most Influential Features:
+    Weight | Label  | Feature
+---------------------------------------------
+    4.8724 | I      | char:ზ
+    4.6096 | I      | char:ჭ
+   -4.1176 | N      | char:წ
+   -4.0821 | S      | char:ქ
+    3.9409 | S      | char:ჰ
+    3.7722 | I      | next_char:პ
+   -3.7665 | N      | next_char:ღ
+   -3.6584 | I      | char:ჰ
+   -3.1210 | N      | prev_char:ვ
+    3.0848 | I      | char:წ
+   -2.9579 | N      | base_word:რჩევა
+   -2.8208 | N      | base_word:საჭიროება
+    2.5920 | S      | next_char:ჰ
+   -2.5131 | I      | next_char:შ
+    2.4743 | S      | char:ბ
