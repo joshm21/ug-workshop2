@@ -27,22 +27,47 @@ You can run this entire pipeline in the cloud without local setup. Open and copy
    source venv/bin/activate
    pip install -r requirements.txt
 
-## 🎓 How to Read Your Model Report
+   # Interpreting the CRF Performance Report
 
-#### 1. The Metrics
-* **Precision:** "When the model says a boundary starts (S), how often is it right?"
-* **Recall:** "Out of all the actual boundaries in the data, how many did the model find?"
-* **F1-Score:** The harmonic mean of Precision and Recall. It is your "Overall Grade."
-* **Support:** The number of times that specific label appeared in the test set.
+# How to Read the Evaluate.py Results
 
-#### 2. The Confusion Matrix
-This table shows you exactly which labels are being confused for one another.
-* **Rows:** The **Actual** labels (Ground Truth).
-* **Columns:** The **Predicted** labels.
-* *Interpretation:* Look at the diagonal line from top-left to bottom-right. You want the highest numbers to be there. Off-diagonal numbers show you exactly where the model is "confused."
+## 1. Classification Metrics (The Table)
+This section measures how well the model predicts each specific label (**I**, **N**, **S**).
 
-#### 3. Feature Weights
-This is the "Explainable AI" section. 
-* **Positive Weights:** These features strongly **encourage** the model to choose that label.
-* **Negative Weights:** These features **discourage** the model from choosing that label.
-* *Tip:* If you see a feature with a high weight that doesn't make linguistic sense, you might have a "leakage" issue or a data cleaning problem!
+*   **Precision:** Of all items the model *predicted* as a specific label, how many were actually correct? (Low precision = many False Positives).
+*   **Recall:** Of all items that *actually* belonged to a label, how many did the model find? (Low recall = many False Negatives).
+*   **F1-Score:** The harmonic mean of Precision and Recall. It's the best "all-around" metric, especially if you have imbalanced classes.
+*   **Support:** The actual count of occurrences of that label in your test dataset. (e.g., Label 'I' appears 16,596 times).
+
+### Summary Rows:
+*   **Accuracy:** The percentage of total guesses that were correct (99.6%).
+*   **Macro Avg:** The arithmetic mean of scores across all classes. It treats 'N' and 'I' as equally important, regardless of their support size.
+*   **Weighted Avg:** The mean of scores weighted by the number of instances (Support). Since 'I' is the most common label, its high performance dominates this average.
+
+---
+
+## 2. Confusion Matrix
+This shows exactly where the model is getting "confused."
+
+*   **Rows:** Represent the **Actual** labels.
+*   **Columns:** Represent the **Predicted** labels.
+*   **Diagonal (Top-left to Bottom-right):** These are the correct predictions.
+    *   *Example:* The model correctly predicted **S** as **S** 4,989 times.
+*   **Off-Diagonal:** These are errors.
+    *   *Example:* Look at Row 'I', Column 'S' (**22**). This means 22 times a token was actually an 'I', but the model mistakenly labeled it as an 'S'.
+
+---
+
+## 3. Most Influential Features
+This explains *why* the model is making its decisions. CRF is a "white-box" model, meaning we can see the logic.
+
+*   **Weight:** 
+    *   **Positive (+) Weights:** This feature strongly suggests this label. (e.g., `trigram_next:დებ` with +6.14 heavily pushes the model to choose **S**).
+    *   **Negative (-) Weights:** This feature makes the label *less* likely. (e.g., if the character is `ვ`, it is almost certainly **not** an **I** because of the -7.22 weight).
+*   **Label:** The label being impacted.
+*   **Feature:** The specific pattern found in the text (bigrams, trigrams, characters, etc.).
+
+---
+
+## Summary Verdict
+The model is performing **exceptionally well** (0.99 F1-score). It handles the most frequent class ('I') almost perfectly. The lowest performance is on class 'N', but even that is at 0.98, which is very high.
