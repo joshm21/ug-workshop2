@@ -5,7 +5,7 @@ This project uses Conditional Random Fields (CRF) to perform morphological segme
 
 - `train.py`: The main entry point to train the CRF model using features defined in `features.py`.
 - `evaluate.py`: Generates performance reports, confusion matrices, and inspects feature weights.
-- `predict.py`: An interactive script to test the trained model on custom Georgian words.
+- `inference.py`: An interactive script to test the trained model on custom Georgian words.
 - `features.py`: The "Sandbox" where linguistic features (prefixes, suffixes, and rules) are defined.
 - `lib/`: Contains core logic for I/O (`io.py`), string processing (`string_utils.py`), and sequence encoding (`sequence.py`).
 - `data/`: Contains `words.csv` and `forms.csv` datasets.
