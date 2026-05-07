@@ -78,7 +78,7 @@ def run_training():
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     output_dir = f"models/run_{timestamp}"
     save_artifacts(output_dir, crf, X_test, y_test)
-    print(f"\n✅ Model trained and saved to: {output_dir}")
+    print(f"\n✅ Model trained and artifacts saved to: {output_dir}")
 
 
 if __name__ == "__main__":

@@ -1,4 +1,5 @@
 import os
+import shutil
 
 import pandas as pd
 import joblib
@@ -36,6 +37,11 @@ def save_artifacts(directory, model, X_test, y_test):
     os.makedirs(directory, exist_ok=True)
     joblib.dump(model, os.path.join(directory, 'model.pkl'))
     joblib.dump((X_test, y_test), os.path.join(directory, 'test_data.pkl'))
+
+    # Archive the feature logic
+    if os.path.exists("features.py"):
+        shutil.copy("features.py", os.path.join(
+            directory, "features.py"))
 
 
 def load_artifacts(model_dir: str):
