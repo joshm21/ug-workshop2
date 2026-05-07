@@ -11,17 +11,17 @@ from lib.string_utils import (
 # --- CONSTANTS ---
 VOWELS = set("აეიოუ")
 PERSON_MARKERS = {"ვ", "ს", "მ", "გ", "გვ", "მი", "გი", "უ", "გვი"}
-PFSF_MARKERS = {"ებ", "ობ", "ამ", "ავ", "ენ", "ეს"}
+PFSF_MARKERS = {"ებ", "ობ", "ამ", "ავ"}
 
 
-def char_to_features(chars: List[str], i: int, meta: Dict[str, Any]) -> Dict[str, Any]:
+def char_to_features(chars: List[str], i: int, row: Dict[str, Any]) -> Dict[str, Any]:
     """
     Converts a single character into a dictionary of features for the CRF model.
 
     Args:
         chars: List of all characters in the verb.
         i: The index of the character being featurized.
-        meta: The metadata, if any (eg base_word, screeve, person, word_type, and has_swap)
+        row: The source data row containing base_word, screeve, person, word_type, and has_swap
     """
     char = chars[i]
     total_len = len(chars)
@@ -31,6 +31,11 @@ def char_to_features(chars: List[str], i: int, meta: Dict[str, Any]) -> Dict[str
     features = {
         'bias': 1.0,
         'char': char,
+        'screeve': row['screeve'],
+        'person': row['person'],
+        'word_type': str(row['word_type']),
+        'base_word': row['base_word'],
+        'swap_flag': row['has_swap'],
         'is_vowel': char in VOWELS,
 
         'is_start': i == 0,
