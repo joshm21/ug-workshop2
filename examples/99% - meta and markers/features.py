@@ -14,14 +14,14 @@ PERSON_MARKERS = {"ვ", "ს", "მ", "გ", "გვ", "მი", "გი", "უ
 PFSF_MARKERS = {"ებ", "ობ", "ამ", "ავ", "ენ", "ეს"}
 
 
-def char2features(chars: List[str], i: int, row: Dict[str, Any]) -> Dict[str, Any]:
+def char_to_features(chars: List[str], i: int, meta: Dict[str, Any]) -> Dict[str, Any]:
     """
     Converts a single character into a dictionary of features for the CRF model.
 
     Args:
         chars: List of all characters in the verb.
         i: The index of the character being featurized.
-        row: The source data row containing base_word, screeve, person, word_type, and has_swap
+        meta: The metadata, if any (eg base_word, screeve, person, word_type, and has_swap)
     """
     char = chars[i]
     total_len = len(chars)
@@ -31,11 +31,11 @@ def char2features(chars: List[str], i: int, row: Dict[str, Any]) -> Dict[str, An
     features = {
         'bias': 1.0,
         'char': char,
-        'screeve': row['screeve'],
-        'person': row['person'],
-        'word_type': str(row['word_type']),
-        'base_word': row['base_word'],
-        'swap_flag': row['has_swap'],
+        'screeve': meta['screeve'],
+        'person': meta['person'],
+        'word_type': str(meta['word_type']),
+        'base_word': meta['base_word'],
+        'swap_flag': meta['has_swap'],
         'is_vowel': char in VOWELS,
 
         # --- Structural Features ---
@@ -69,3 +69,14 @@ def char2features(chars: List[str], i: int, row: Dict[str, Any]) -> Dict[str, An
     }
 
     return features
+
+
+def word_to_features(word: str, meta: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """
+    Converts a clean word (no '-' dashes) and metadata into feature dictionaries.
+    """
+    chars = list(word)
+    return [
+        char_to_features(chars, i, meta)
+        for i in range(len(chars))
+    ]
