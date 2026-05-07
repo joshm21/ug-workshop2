@@ -1,10 +1,11 @@
+print('starting...')
 import datetime
 import sklearn_crfsuite
 from sklearn.model_selection import train_test_split
 
 from lib.io import load_georgian_data, save_artifacts
-from lib.sequence import encode_sequence
-from features import char2features
+from lib.sequence import encode
+from features import word_to_features
 
 
 def run_training():
@@ -14,20 +15,17 @@ def run_training():
         print("No data found, exiting")
         return
 
-    # X is our features (inputs)
-    # y is our labels (ouputs)
     X, y = [], []
     for _, row in df.iterrows():
-        chars, labels = encode_sequence(row)
-        if not chars:
-            continue
+        split_form = str(row['split_form'])
+        clean_word = split_form.replace('-', '')
 
-        # Build feature sequence for the word using features.py
-        word_features = [
-            char2features(chars, i, row)
-            for i in range(len(chars))
-        ]
-        X.append(word_features)
+        # Get Features (the input)
+        features = word_to_features(clean_word, row)
+        X.append(features)
+
+        # Get Labels (the answer)
+        labels = encode(split_form)
         y.append(labels)
 
     # Split data into training and testing groups
@@ -61,8 +59,7 @@ def run_training():
         all_possible_states=True,
 
         # The maximum number of times the optimizer will try to improve the model.
-        # 100 is usually enough for this size of morphological data.
-        max_iterations=100,
+        max_iterations=300,
 
         # The "Stopping Threshold."
         # A larger number (e.g., 1e-3) makes training faster but less precise.

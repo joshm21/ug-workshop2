@@ -14,7 +14,7 @@ PERSON_MARKERS = {"ვ", "ს", "მ", "გ", "გვ", "მი", "გი", "უ
 PFSF_MARKERS = {"ებ", "ობ", "ამ", "ავ", "ენ", "ეს"}
 
 
-def char2features(chars: List[str], i: int, row: Dict[str, Any]) -> Dict[str, Any]:
+def char_to_features(chars: List[str], i: int, row: Dict[str, Any]) -> Dict[str, Any]:
     """
     Converts a single character into a dictionary of features for the CRF model.
 
@@ -46,3 +46,14 @@ def char2features(chars: List[str], i: int, row: Dict[str, Any]) -> Dict[str, An
     }
 
     return features
+
+
+def word_to_features(word: str, meta: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """
+    Converts a clean word (no '-' dashes) and metadata into feature dictionaries.
+    """
+    chars = list(word)
+    return [
+        char_to_features(chars, i, meta)
+        for i in range(len(chars))
+    ]

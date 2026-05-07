@@ -32,7 +32,7 @@ def load_georgian_data(data_dir: str = 'data') -> pd.DataFrame:
 
 
 def save_artifacts(directory, model, X_test, y_test):
-    """Tucks away the complexity of saving binary files."""
+    """Saves model and test data in .pkl files."""
     os.makedirs(directory, exist_ok=True)
     joblib.dump(model, os.path.join(directory, 'model.pkl'))
     joblib.dump((X_test, y_test), os.path.join(directory, 'test_data.pkl'))
@@ -71,3 +71,14 @@ def get_latest_run_dir(model_root: str = 'models') -> str:
             f"No run directories found inside {model_root}.")
 
     return max(all_runs, key=os.path.getmtime)
+
+
+def save_evaluation(directory: str, report_text: str):
+    """
+    Saves the evaluation report string to evaluation.txt 
+    inside the specified model directory.
+    """
+    report_path = os.path.join(directory, "evaluation.txt")
+    with open(report_path, "w", encoding="utf-8") as f:
+        f.write(report_text)
+    print(f"✅ Evaluation saved to: {report_path}")
