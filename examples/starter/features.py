@@ -11,7 +11,7 @@ from lib.string_utils import (
 # --- CONSTANTS ---
 VOWELS = set("აეიოუ")
 PERSON_MARKERS = {"ვ", "ს", "მ", "გ", "გვ", "მი", "გი", "უ", "გვი"}
-PFSF_MARKERS = {"ებ", "ობ", "ამ", "ავ", "ენ", "ეს"}
+PFSF_MARKERS = {"ებ", "ობ", "ამ", "ავ"}
 
 
 def char_to_features(chars: List[str], i: int, row: Dict[str, Any]) -> Dict[str, Any]:
@@ -42,7 +42,6 @@ def char_to_features(chars: List[str], i: int, row: Dict[str, Any]) -> Dict[str,
         'is_end': i == total_len - 1,
 
         'prev_char': get_next(chars, i+1, 1),
-        'next_char': get_prev(chars, i-1, 1),
     }
 
     return features
